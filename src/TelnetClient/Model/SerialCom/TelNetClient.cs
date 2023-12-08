@@ -98,45 +98,9 @@ namespace TelnetClient.Model.SerialCom
             {
                 while (!cancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    var sb = new StringBuilder();
-
-                    while(streamReader.Peek() != -1)
-                    {
-                        sb.Append(streamReader.Read());
-                    }
-
-                    var response = sb.ToString();
-
-                    if ((response != null) && (response.Count() > 0))
-                    {
-                        // byte[] receivedBytes = new byte[serialPort.BytesToRead];
-                        // streamReader.Read(receivedBytes, 0, receivedBytes.Length);
-
-                        // 受信データバイナリログ出力
-                        logWriteRequester.WriteRequest(LogLevel.Debug, "[RCV] " + string.Join(" ", response));
-
-                        // dataReceiveAction?.Invoke(new byte[] { }); // 仮に0詰め
-                    }
-
-                    var sendList = new List<byte>();
-                    // sendQueueを調べてデータがあればserialPortに送信する
-                    while (!sendQueue.IsEmpty)
-                    {
-                        if (sendQueue.TryDequeue(out byte data))
-                        {
-                            sendList.Add(data);
-                        }
-                    }
-
-                    if (sendList.Count != 0)
-                    {
-                        streamWriter.WriteLine("aaa", 0, "aaa".Count());
-
-                        // 送信データバイナリログ出力
-                        logWriteRequester.WriteRequest(LogLevel.Debug, "[SND] " + string.Join(" ", "aaa"));
-                    }
-
-                    await Task.Delay(100); // Adjust the delay duration as needed
+                    // 受信データバイナリログ出力
+                    logWriteRequester.WriteRequest(LogLevel.Debug, "[RCV] " + streamReader.Read());
+                    await Task.Delay(1000); // Adjust the delay duration as needed
                 }
             });
 

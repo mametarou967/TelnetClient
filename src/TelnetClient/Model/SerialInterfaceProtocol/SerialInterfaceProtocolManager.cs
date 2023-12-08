@@ -9,7 +9,7 @@ namespace TelnetClient.Model.SerialInterfaceProtocol
 {
     public class SerialInterfaceProtocolManager
     {
-        TelnetClient.Model.SerialCom.SerialCom serialCom;
+        TelnetClient.Model.SerialCom.TelNetClient serialCom;
         Queue<byte> receiveDataQueue = new Queue<byte>();
         ILogWriteRequester logWriteRequester;
         private readonly object sendLock = new object(); // ロックオブジェクト
@@ -49,7 +49,7 @@ namespace TelnetClient.Model.SerialInterfaceProtocol
             }
             else
             {
-                serialCom = new SerialCom.SerialCom(comPort, DataReceiveAction, logWriteRequester);
+                serialCom = new SerialCom.TelNetClient(comPort, DataReceiveAction, logWriteRequester);
                 serialCom.StartCom();
             }
         }

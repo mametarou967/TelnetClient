@@ -71,7 +71,7 @@
     <Compile Include="Model\Logging\ILogWriteRequester.cs" />
     <Compile Include="Model\Logging\LogWriter.cs" />
     <Compile Include="Model\Logging\LogWriteRequester.cs" />
-    <Compile Include="Model\SerialCom\SerialCom.cs" />
+    <Compile Include="Model\SerialCom\TelNetClient.cs" />
     <Compile Include="Model\SerialInterfaceProtocol\Command.cs" />
     <Compile Include="Model\SerialInterfaceProtocol\CommandGenerator.cs" />
     <Compile Include="Model\SerialInterfaceProtocol\DummyCommand.cs" />

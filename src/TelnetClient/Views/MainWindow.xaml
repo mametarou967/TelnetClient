@@ -43,20 +43,11 @@
                 <Border Width="10" Height="Auto"/>
                 <Button Content="シリアル通信終了" Command="{Binding SerialStopButton}"/>
                 <Border Width="20" Height="Auto"/>
-                <Label Content="COMPORT:"></Label>
-                <ComboBox ItemsSource="{Binding SerialPortList}"
-                      SelectedValuePath="Value"
-                      DisplayMemberPath="DisplayValue"
-                      Width="150"
-                      Margin="0">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <prism:InvokeCommandAction
-                            Command="{Binding PortListSelectionChanged}"
-                            TriggerParameterPath="AddedItems"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ComboBox>
+                <Label Content="IPADDRESS:"></Label>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="0,0,0,0" TextWrapping="Wrap" 
+                 Text="{Binding IPAddress, UpdateSourceTrigger=PropertyChanged}" 
+                 VerticalAlignment="Top" Width="120"/>
+
             </WrapPanel>
             <!-- 認証要求 -->
             <!--

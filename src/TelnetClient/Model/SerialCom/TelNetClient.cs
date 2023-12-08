@@ -38,13 +38,13 @@ namespace TelnetClient.Model.SerialCom
             }
         }
 
-
+        // "192.168.2.87"
         public TelNetClient(
             string hostname,
             Action<byte[]> dataReceiveAction,
             ILogWriteRequester logWriteRequester)
         {
-            this.hostname = "192.168.2.87";
+            this.hostname = hostname;
             this.dataReceiveAction = dataReceiveAction;
             this.logWriteRequester = logWriteRequester;
         }

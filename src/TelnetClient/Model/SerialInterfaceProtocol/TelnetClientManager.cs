@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TelnetClient.Model.SerialInterfaceProtocol
 {
-    public class SerialInterfaceProtocolManager
+    public class TelnetClientManager
     {
         TelnetClient.Model.SerialCom.TelNetClient serialCom;
         Queue<byte> receiveDataQueue = new Queue<byte>();
@@ -36,12 +36,12 @@ namespace TelnetClient.Model.SerialInterfaceProtocol
         public NinshouKekkaNgShousai NinshouKekkaNgShousai = NinshouKekkaNgShousai.Nashi;
         public string RiyoushaId = "00043130";
 
-        public SerialInterfaceProtocolManager(ILogWriteRequester logWriteRequester)
+        public TelnetClientManager(ILogWriteRequester logWriteRequester)
         {
             this.logWriteRequester = logWriteRequester;
         }
 
-        public void ComStart(string comPort)
+        public void TelnetStart(string hostname)
         {
             if ((serialCom != null) && serialCom.IsCommunicating)
             {
@@ -49,7 +49,7 @@ namespace TelnetClient.Model.SerialInterfaceProtocol
             }
             else
             {
-                serialCom = new SerialCom.TelNetClient(comPort, DataReceiveAction, logWriteRequester);
+                serialCom = new SerialCom.TelNetClient(hostname, DataReceiveAction, logWriteRequester);
                 serialCom.StartCom();
             }
         }

@@ -55,7 +55,7 @@ namespace TelnetClient.ViewModels
 
         public MainWindowViewModel(IEventAggregator ea)
         {
-            serialInterfaceProtocolManager = new SerialInterfaceProtocolManager(new LogWriteRequester(ea));
+            serialInterfaceProtocolManager = new TelnetClientManager(new LogWriteRequester(ea));
             // コマンドの準備
             SerialStartButton = new DelegateCommand(SerialStartButtonExecute);
             SerialStopButton = new DelegateCommand(SerialStopButtonExecute);
@@ -97,13 +97,22 @@ namespace TelnetClient.ViewModels
              });
         }
 
+        /// IPアドレス
+        private string _ipAddress;
+
+        public string IPAddress
+        {
+            get => _ipAddress;
+            set => SetProperty(ref _ipAddress, value);
+        }
+
         /// ボタン関係
         /// シリアル通信関係
         public DelegateCommand SerialStartButton { get; }
 
         private void SerialStartButtonExecute()
         {
-            serialInterfaceProtocolManager.ComStart(selectedSerialComPort);
+            serialInterfaceProtocolManager.TelnetStart(IPAddress);
         }
 
         public DelegateCommand SerialStopButton { get; }
@@ -172,7 +181,7 @@ namespace TelnetClient.ViewModels
             catch { }
         }
 
-        SerialInterfaceProtocolManager serialInterfaceProtocolManager;
+        TelnetClientManager serialInterfaceProtocolManager;
         String selectedSerialComPort = "";
 
         ObservableCollection<LogItem> _logItems =

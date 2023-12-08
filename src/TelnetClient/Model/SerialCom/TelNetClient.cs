@@ -60,12 +60,12 @@ namespace TelnetClient.Model.SerialCom
             }
 
             tcpClient = new TcpClient();
-            var task = tcpClient.ConnectAsync(hostname, 23);
+
 
             logWriteRequester.WriteRequest(
             LogLevel.Info,
             $"[TCP-TELNET-START-TRY1] " +
-            $"LocalEndPoint:{tcpClient.Client.LocalEndPoint.ToString()} ");
+            $"ipアドレス:<<{hostname}>> へのtelnet接続を開始します");
 
             logWriteRequester.WriteRequest(
             LogLevel.Info,
@@ -74,6 +74,8 @@ namespace TelnetClient.Model.SerialCom
 
             try
             {
+                var task = tcpClient.ConnectAsync(hostname, 23);
+
                 if (await Task.WhenAny(task, Task.Delay(tcpConnectWaitTimeMs)) != task)
                 {
                     //タイムアウトの例外

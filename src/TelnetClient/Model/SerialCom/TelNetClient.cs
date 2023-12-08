@@ -27,6 +27,8 @@ namespace TelnetClient.Model.SerialCom
         private StreamReader streamReader;
         private StreamWriter streamWriter;
 
+        const int tcpConnectWaitTimeMs = 3000;
+
         public bool IsCommunicating
         {
             get
@@ -47,7 +49,7 @@ namespace TelnetClient.Model.SerialCom
             this.logWriteRequester = logWriteRequester;
         }
 
-        public bool StartCom()
+        public async Task<bool> StartCom()
         {
             if (String.IsNullOrEmpty(hostname))
             {
@@ -57,9 +59,26 @@ namespace TelnetClient.Model.SerialCom
                 return false;
             }
 
+            tcpClient = new TcpClient();
+            var task = tcpClient.ConnectAsync(hostname, 23);
+
+            logWriteRequester.WriteRequest(
+            LogLevel.Info,
+            $"[TCP-TELNET-START-TRY1] " +
+            $"LocalEndPoint:{tcpClient.Client.LocalEndPoint.ToString()} ");
+
+            logWriteRequester.WriteRequest(
+            LogLevel.Info,
+            $"[TCP-TELNET-START-TRY2] " +
+            $"接続待ち時間は{tcpConnectWaitTimeMs}msです ");
+
             try
             {
-                tcpClient = new TcpClient(hostname,23);
+                if (await Task.WhenAny(task, Task.Delay(tcpConnectWaitTimeMs)) != task)
+                {
+                    //タイムアウトの例外
+                    throw new SocketException(10060);
+                }
                 networkStream = tcpClient.GetStream();
                 streamReader = new StreamReader(networkStream, Encoding.ASCII);
                 streamWriter = new StreamWriter(networkStream, Encoding.ASCII);
